@@ -1,0 +1,19 @@
+{
+    "name": "gdu-service",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "dependencies": {
+        "fs": "0.0.1-security",
+        "https": "^1.0.0",
+        "mongodb": "^3.3.0",
+        "mssql": "^6.2.0",
+        "websocket": "^1.0.30"
+    },
+    "devDependencies": {},
+    "scripts": {
+        "start": "node ./app.js"
+    },
+    "author": "",
+    "license": "ISC"
+}
