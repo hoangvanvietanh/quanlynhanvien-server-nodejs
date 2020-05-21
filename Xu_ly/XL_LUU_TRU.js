@@ -55,6 +55,19 @@ class XL_LUU_TRU {
             console.log(Loi)
         }
     }
+
+    async Them_lich_bieu(Loai_Doi_tuong, Doi_tuong,id) {
+
+        try {
+            var Kq = await admin.firestore().collection(Loai_Doi_tuong).doc(id).set(Doi_tuong)
+            //var Kq = await db.collection(Loai_Doi_tuong).insert(Doi_tuong)
+            return Kq
+
+        } catch (Loi) {
+            console.log(Loi)
+        }
+    }
+
     async Cap_nhat_Doi_tuong(Loai_Doi_tuong, Bieu_thuc_dieu_kien, Gia_tri_Cap_nhat) {
         try {
             var db = await DbConnection.Get()

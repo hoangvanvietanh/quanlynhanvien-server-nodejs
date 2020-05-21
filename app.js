@@ -86,11 +86,13 @@ var Dich_vu = NodeJs_Dich_vu.createServer((Yeu_cau, Dap_ung) => {
             console.log(Data);
             var Dieu_kien = { "Email": Data.username }
             var dataUpdate = [];
+            var nhanvien = {};
             Du_lieu.Danh_sach_Nhan_vien.forEach(dataSchedule => {
                 if (dataSchedule.Account.UserName.trim() ==Data.username.trim()) {
                     Data.schedules.id = dataSchedule.Schedules.length;
                     dataSchedule.Schedules.push(Data.schedules);
                     dataUpdate = dataSchedule.Schedules;
+                    nhanvien = dataSchedule;
                 }
             });
             var Gia_tri_Cap_nhat = {
@@ -99,7 +101,7 @@ var Dich_vu = NodeJs_Dich_vu.createServer((Yeu_cau, Dap_ung) => {
             console.log(Dieu_kien);
             console.log(dataUpdate);
             //Du_lieu.Danh_sach_Cau_hoi.question_list = Cau_hoi.question_list;
-            Kq = Luu_tru.Cap_nhat_Doi_tuong("employees", Dieu_kien, Gia_tri_Cap_nhat)
+            Kq = Luu_tru.Them_lich_bieu('employees', nhanvien, nhanvien.Account.UserName)
             if (Kq == "") {
                 Chuoi_Kq = "OK"
             } else {
