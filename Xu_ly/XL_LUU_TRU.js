@@ -4,6 +4,14 @@ var Cong_nghe = "json"
 var Thu_muc_Du_lieu = "Nhat_ky_login"
 // MongoDB
 var DbConnection = require('../Xu_ly/XL_KET_NOI_MONGODB');
+var admin = require("firebase-admin");
+
+var serviceAccount = require("../config/serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://quanlynhanvien-7ebfb.firebaseio.com"
+});
 
 var config = {
     user: 'sa',
@@ -28,19 +36,19 @@ class XL_LUU_TRU {
 
     async Doc_Danh_sach_Nhan_vien() {
         try {
-            var db = await DbConnection.Get();
-            var Nhan_vien = await db.collection("employees").find({}).toArray()
-            return Nhan_vien
+            var db = await admin.firestore().collection("employees").get();
+            var Nguoi_dung = db.docs.map(doc => doc.data());
+            return Nguoi_dung;
         } catch (Loi) {
             console.log(Loi)
         }
     }
 
-    async Ghi_moi_Doi_tuong(Loai_Doi_tuong, Doi_tuong) {
+    async Ghi_moi_Doi_tuong(Loai_Doi_tuong, Doi_tuong,id) {
 
         try {
-            var db = await DbConnection.Get()
-            var Kq = await db.collection(Loai_Doi_tuong).insert(Doi_tuong)
+            var Kq = await admin.firestore().collection(Loai_Doi_tuong).doc(id).set(Doi_tuong)
+            //var Kq = await db.collection(Loai_Doi_tuong).insert(Doi_tuong)
             return Kq
 
         } catch (Loi) {
