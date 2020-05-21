@@ -66,7 +66,7 @@ var Dich_vu = NodeJs_Dich_vu.createServer((Yeu_cau, Dap_ung) => {
             Dap_ung.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
             Dap_ung.setHeader('Access-Control-Allow-Credentials', true);
             console.log(nhanvien);
-            Kq = Luu_tru.Ghi_moi_Doi_tuong('employees', nhanvien);
+            Kq = Luu_tru.Ghi_moi_Doi_tuong('employees', nhanvien, nhanvien.UserName);
             Du_lieu.Danh_sach_Nhan_vien.push(nhanvien);
             if (Kq == "") {
                 Chuoi_Kq = "OK"
