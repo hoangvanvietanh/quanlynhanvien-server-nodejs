@@ -75,7 +75,53 @@ var Dich_vu = NodeJs_Dich_vu.createServer((Yeu_cau, Dap_ung) => {
                 Chuoi_Kq = "Error"
             }
             Dap_ung.end(Chuoi_Kq);
-        } 
+        }
+        else if (Ma_so_Xu_ly == "Them_gop_y") {
+            var feedback = JSON.parse(Chuoi_Nhan);
+            Dap_ung.setHeader("Access-Control-Allow-Origin", '*')
+            Dap_ung.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+            Dap_ung.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+            Dap_ung.setHeader('Access-Control-Allow-Credentials', true);
+            console.log(feedback);
+            Kq = Luu_tru.Ghi_moi_Doi_tuong_Khong_Id('feedbacks', feedback);
+            //Du_lieu.Danh_sach_Nhan_vien.push(nhanvien);
+            if (Kq == "") {
+                Chuoi_Kq = "OK"
+                console.log("Thêm thành công");
+            } else {
+                Chuoi_Kq = "Error"
+            }
+            Dap_ung.end(Chuoi_Kq);
+        }
+        else if (Ma_so_Xu_ly == "Cap_nhat_tai_khoan") {
+            var Kq = ""
+            console.log("-------------------->>>");
+            console.log(Chuoi_Nhan);
+            var nhanvien = JSON.parse(Chuoi_Nhan)
+            Dap_ung.setHeader("Access-Control-Allow-Origin", '*')
+            Dap_ung.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+            Dap_ung.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+            Dap_ung.setHeader('Access-Control-Allow-Credentials', true);
+            
+            Du_lieu.Danh_sach_Nhan_vien.forEach(employeeDB => {
+                if (employeeDB.Account.UserName.trim() == nhanvien.Account.UserName.trim()) {
+                    employeeDB.FullName = nhanvien.FullName;
+                    employeeDB.BirthDate =nhanvien.BirthDate;
+                    employeeDB.Address = nhanvien.Address;
+                    employeeDB.Email = nhanvien.Email;
+                    employeeDB.PhoneNumber = nhanvien.PhoneNumber;
+                    employeeDB.Account.Password = nhanvien.Account.Password;
+                }
+            });
+            Kq = Luu_tru.Cap_nhat_Doi_tuong('employees', nhanvien, nhanvien.Account.UserName)
+            if (Kq == "") {
+                Chuoi_Kq = "OK"
+            } else {
+                Chuoi_Kq = "Error"
+            }
+
+            Dap_ung.end(Chuoi_Kq);
+        }
         else if (Ma_so_Xu_ly == "Them_Lich_bieu") {
             var Kq = ""
             var Data = JSON.parse(Chuoi_Nhan)
@@ -108,6 +154,39 @@ var Dich_vu = NodeJs_Dich_vu.createServer((Yeu_cau, Dap_ung) => {
                 Chuoi_Kq = "Error"
             }
 
+            Dap_ung.end(Chuoi_Kq);
+        }
+        else if (Ma_so_Xu_ly == "login") {
+            //console.log("Vào login nè");
+            var user  = JSON.parse(Chuoi_Nhan)
+            //console.log(user);
+            var checkLogin  = false;
+            var user_return  = {};
+            Du_lieu.Danh_sach_Nhan_vien.forEach(userDB=>{
+                //console.log(userDB)
+                if(user.UserName.trim() == userDB.Account.UserName.trim())
+                {
+                    if(user.Password.trim() == userDB.Account.Password.trim())
+                    {
+                        checkLogin = true;
+                        user_return = userDB;
+                    }
+                }
+            })
+
+            if(checkLogin == false)
+            {
+                Chuoi_Kq = "login_fail";
+            }
+            else
+            {
+                Chuoi_Kq = JSON.stringify(user_return)
+            }
+            //console.log(Chuoi_Kq);
+            Dap_ung.setHeader("Access-Control-Allow-Origin", '*')
+            Dap_ung.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+            Dap_ung.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, content-type');
+            Dap_ung.setHeader('Access-Control-Allow-Credentials', true);
             Dap_ung.end(Chuoi_Kq);
         }
         else {
